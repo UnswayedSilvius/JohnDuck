@@ -1,16 +1,143 @@
 ﻿@model JohnDuck.Models.Product
 
-<div class="modal-header">
-    <h5 class="modal-title">Product Details</h5>
+<style>
+    /* ---------- Modal Header ---------- */
+    .modal-header-product {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: #fff;
+        border-bottom: none;
+        border-radius: .6rem .6rem 0 0;
+    }
+    .modal-header-product .btn-close {
+        filter: invert(1);
+        opacity: .8;
+    }
+    .modal-header-product .btn-close:hover { opacity: 1; }
+
+    /* ---------- Modal Body ---------- */
+    .details-body {
+        background:#f8f9fa;
+        padding:2rem;
+    }
+    .details-card {
+        background:#fff;
+        border-radius:.6rem;
+        box-shadow:0 2px 8px rgba(0,0,0,.05);
+        padding:1.5rem 2rem;
+    }
+    .detail-row {
+        display:flex;
+        justify-content:space-between;
+        padding: .75rem 0;
+        border-bottom:1px solid #e9ecef;
+    }
+    .detail-row:last-child { border-bottom:none; }
+    .detail-label {
+        font-size:.85rem;
+        text-transform:uppercase;
+        letter-spacing:.5px;
+        font-weight:600;
+        color:#495057;
+    }
+    .detail-value  { font-weight:600; color:#2c3e50; }
+
+    /* ---------- Specific Value Styles ---------- */
+    .price-val  { color:#28a745; font-size:1.15rem; }
+    .qty-good  { color:#28a745; }
+    .qty-low   { color:#ffc107; }
+    .qty-out   { color:#dc3545; }
+    .badge-cat {
+        background:#6c757d; color:#fff;
+        padding:.35rem .9rem;
+        border-radius:1rem;
+        font-size:.8rem;
+        text-transform:uppercase;
+        letter-spacing:.4px;
+    }
+    .badge-unit{
+        background:#e9ecef; color:#495057;
+        padding:.25rem .7rem;
+        border-radius:.8rem;
+        font-size:.8rem;
+    }
+    .status-tag{
+        font-size:.75rem; font-weight:600;
+        padding:.3rem .8rem;
+        border-radius:1rem;
+        text-transform:uppercase;
+        letter-spacing:.4px;
+    }
+    .status-good{ background:#d4edda; color:#155724; }
+    .status-low { background:#fff3cd; color:#856404; }
+    .status-out { background:#f8d7da; color:#721c24; }
+
+    /* ---------- Modal Footer ---------- */
+    .modal-footer-product {
+        background:#fff;
+        border-top:1px solid #e9ecef;
+        padding:1rem 2rem;
+    }
+</style>
+
+@{
+    /* Compute stock status classes/text once */
+    string statusClass = "status-good", qtyClass = "qty-good", statusText = "In Stock";
+    if (Model.StockQty == 0)          { statusClass = "status-out"; qtyClass = "qty-out"; statusText = "Out of Stock"; }
+    else if (Model.StockQty <= 10)    { statusClass = "status-low"; qtyClass = "qty-low"; statusText = "Low Stock"; }
+}
+
+<!-- Modal Header -->
+<div class="modal-header modal-header-product">
+    <h5 class="modal-title">
+        <i class="fas fa-box me-2"></i>Product Details
+    </h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-<div class="modal-body">
-    <p><strong>Name:</strong> @Model.Name</p>
-    <p><strong>Category:</strong> @Model.Category</p>
-    <p><strong>Price:</strong> @Model.Price</p>
-    <p><strong>Stock Quantity:</strong> @Model.StockQty</p>
-    <p><strong>Unit:</strong> @Model.Unit</p>
+
+<!-- Modal Body -->
+<div class="modal-body details-body">
+    <div class="details-card">
+
+        <div class="detail-row">
+            <span class="detail-label">Product Name</span>
+            <span class="detail-value">@Model.Name</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Category</span>
+            <span class="badge-cat">@Model.Category</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Price</span>
+            <span class="detail-value price-val">₹@Model.Price.ToString("N2")</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Stock Status</span>
+            <span class="status-tag @statusClass">@statusText</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Quantity</span>
+            <span class="detail-value @qtyClass">@Model.StockQty</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Unit</span>
+            <span class="badge-unit">@Model.Unit</span>
+        </div>
+
+    </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+<!-- Modal Footer -->
+<div class="modal-footer modal-footer-product">
+    <a asp-controller="Product" asp-action="EditProduct" asp-route-id="@Model.Id"
+       class="btn btn-warning me-2">
+        <i class="fas fa-edit me-1"></i> Edit
+    </a>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <i class="fas fa-times me-1"></i> Close
+    </button>
 </div>

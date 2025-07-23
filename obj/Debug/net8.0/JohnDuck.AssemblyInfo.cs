@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JohnDuck")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+498c0b41f0daa56485755ef166c9f46ef30c0679")]
 [assembly: System.Reflection.AssemblyProductAttribute("JohnDuck")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JohnDuck")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

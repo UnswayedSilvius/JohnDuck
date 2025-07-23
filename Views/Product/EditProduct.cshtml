@@ -4,45 +4,395 @@
     ViewData["Title"] = "Edit Product";
 }
 
-<h2>Edit Product</h2>
+<style>
+    .edit-page {
+        background-color: #f8f9fa;
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
 
-<form asp-action="EditProducts" method="post" class="mt-3">
-    <input type="hidden" asp-for="Id" />
+    .page-header-edit {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+    }
 
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+    .edit-form-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+
+    .form-header {
+        background-color: #495057;
+        color: white;
+        padding: 1.5rem 2rem;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .form-body {
+        padding: 2rem;
+    }
+
+    .form-group-enhanced {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label-enhanced {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+
+    .form-control-enhanced {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #fafbfc;
+    }
+
+        .form-control-enhanced:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+            background-color: white;
+            outline: none;
+        }
+
+        .form-control-enhanced:hover {
+            border-color: #007bff;
+            background-color: white;
+        }
+
+    .input-group-enhanced {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+        z-index: 3;
+    }
+
+    .form-control-with-icon {
+        padding-left: 2.75rem;
+    }
+
+    .btn-enhanced {
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 0.75rem 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.2s ease;
+        border: none;
+    }
+
+        .btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+    .btn-success-enhanced {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+    }
+
+        .btn-success-enhanced:hover {
+            background: linear-gradient(135deg, #218838 0%, #1ac09b 100%);
+            color: white;
+        }
+
+    .btn-secondary-enhanced {
+        background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+        color: white;
+    }
+
+        .btn-secondary-enhanced:hover {
+            background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+            color: white;
+        }
+
+    .form-actions {
+        background-color: #f8f9fa;
+        padding: 1.5rem 2rem;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+    }
+
+    .validation-summary {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 1rem;
+        border-radius: 6px;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid #dc3545;
+    }
+
+    .text-danger {
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-top: 0.25rem;
+    }
+
+    .breadcrumb-enhanced {
+        background: white;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        margin-bottom: 1.5rem;
+    }
+
+        .breadcrumb-enhanced .breadcrumb {
+            margin: 0;
+        }
+
+        .breadcrumb-enhanced .breadcrumb-item + .breadcrumb-item::before {
+            content: "›";
+            color: #6c757d;
+        }
+
+    .form-row-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    @@media (max-width: 768px) {
+        .form-row-container
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .edit-page {
+        padding: 1rem 0;
+    }
+
+    }
+</style>
+
+<div class="edit-page">
+    <div class="container-fluid">
+
+        <!-- Enhanced Header -->
+        <div class="page-header-edit">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="mb-2">Edit Product</h1>
+                    <p class="mb-0 opacity-75">Update product information and inventory details</p>
+                </div>
+                <div>
+                    <span class="badge bg-light text-dark px-3 py-2">
+                        Product ID: @Model.Id
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-enhanced">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none">
+                            <i class="fas fa-home me-1"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Product" asp-action="Product" class="text-decoration-none">
+                            Products
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- Enhanced Form -->
+        <div class="edit-form-container">
+            <div class="form-header">
+                <h3 class="mb-0">
+                    <i class="fas fa-edit me-2"></i>
+                    Product Information
+                </h3>
+            </div>
+
+            <form asp-action="EditProduct" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-body">
+
+                    <!-- Product Name -->
+                    <div class="form-group-enhanced">
+                        <label asp-for="Name" class="form-label-enhanced">
+                            <i class="fas fa-tag me-1"></i> Product Name
+                        </label>
+                        <div class="input-group-enhanced">
+                            <i class="fas fa-cube input-icon"></i>
+                            <input asp-for="Name" class="form-control-enhanced form-control-with-icon"
+                                   placeholder="Enter product name" />
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <!-- Category and Unit Row -->
+                    <div class="form-row-container">
+                        <div class="form-group-enhanced">
+                            <label asp-for="Category" class="form-label-enhanced">
+                                <i class="fas fa-folder me-1"></i> Category
+                            </label>
+                            <div class="input-group-enhanced">
+                                <i class="fas fa-list input-icon"></i>
+                                <input asp-for="Category" class="form-control-enhanced form-control-with-icon"
+                                       placeholder="Enter category" />
+                            </div>
+                            <span asp-validation-for="Category" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group-enhanced">
+                            <label asp-for="Unit" class="form-label-enhanced">
+                                <i class="fas fa-balance-scale me-1"></i> Unit
+                            </label>
+                            <div class="input-group-enhanced">
+                                <i class="fas fa-ruler input-icon"></i>
+                                <input asp-for="Unit" class="form-control-enhanced form-control-with-icon"
+                                       placeholder="e.g., kg, liters, pieces" />
+                            </div>
+                            <span asp-validation-for="Unit" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Price and Stock Row -->
+                    <div class="form-row-container">
+                        <div class="form-group-enhanced">
+                            <label asp-for="Price" class="form-label-enhanced">
+                                <i class="fas fa-rupee-sign me-1"></i> Price
+                            </label>
+                            <div class="input-group-enhanced">
+                                <i class="fas fa-money-bill input-icon"></i>
+                                <input asp-for="Price" class="form-control-enhanced form-control-with-icon"
+                                       type="number" step="0.01" min="0" placeholder="0.00" />
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group-enhanced">
+                            <label asp-for="StockQty" class="form-label-enhanced">
+                                <i class="fas fa-boxes me-1"></i> Stock Quantity
+                            </label>
+                            <div class="input-group-enhanced">
+                                <i class="fas fa-warehouse input-icon"></i>
+                                <input asp-for="StockQty" class="form-control-enhanced form-control-with-icon"
+                                       type="number" min="0" placeholder="0" />
+                            </div>
+                            <span asp-validation-for="StockQty" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Current Stock Status Display -->
+                    <div class="alert alert-info d-flex align-items-center">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <div>
+                            <strong>Current Stock Status:</strong>
+                            @{
+                                var stockClass = "text-success";
+                                var stockText = "In Stock";
+
+                                if (Model.StockQty == 0)
+                                {
+                                    stockClass = "text-danger";
+                                    stockText = "Out of Stock";
+                                }
+                                else if (Model.StockQty <= 10)
+                                {
+                                    stockClass = "text-warning";
+                                    stockText = "Low Stock";
+                                }
+                            }
+                            <span class="@stockClass fw-bold">@stockText</span>
+                            (@Model.StockQty units available)
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <a asp-action="Product" class="btn btn-secondary-enhanced btn-enhanced">
+                        <i class="fas fa-times me-1"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-success-enhanced btn-enhanced">
+                        <i class="fas fa-save me-1"></i> Save Changes
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Category" class="form-label"></label>
-        <input asp-for="Category" class="form-control" />
-        <span asp-validation-for="Category" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Price" class="form-label"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="StockQty" class="form-label"></label>
-        <input asp-for="StockQty" class="form-control" />
-        <span asp-validation-for="StockQty" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Unit" class="form-label"></label>
-        <input asp-for="Unit" class="form-control" />
-        <span asp-validation-for="Unit" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-success">Save Changes</button>
-    <a asp-action="Products" class="btn btn-secondary">Cancel</a>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function() {
+            // Add real-time stock status update
+            $('#StockQty').on('input', function() {
+                var qty = parseInt($(this).val()) || 0;
+                var statusText = '';
+                var statusClass = '';
+
+                if (qty === 0) {
+                    statusText = 'Out of Stock';
+                    statusClass = 'text-danger';
+                } else if (qty <= 10) {
+                    statusText = 'Low Stock';
+                    statusClass = 'text-warning';
+                } else {
+                    statusText = 'In Stock';
+                    statusClass = 'text-success';
+                }
+
+                $('.alert-info span').removeClass('text-success text-warning text-danger').addClass(statusClass);
+                $('.alert-info span').text(statusText);
+                $('.alert-info').contents().filter(function() {
+                    return this.nodeType === 3;
+                }).last().replaceWith(' (' + qty + ' units available)');
+            });
+
+            // Enhanced form validation feedback
+            $('form').on('submit', function(e) {
+                var hasErrors = $('.text-danger:visible').length > 0;
+                if (hasErrors) {
+                    e.preventDefault();
+                    $('html, body').animate({
+                        scrollTop: $('.text-danger:visible').first().offset().top - 100
+                    }, 500);
+                }
+            });
+
+            // Auto-focus first input
+            $('input[asp-for="Name"]').focus();
+        });
+    </script>
 }
