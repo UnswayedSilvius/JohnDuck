@@ -1,0 +1,103 @@
+﻿@model IEnumerable<JohnDuck.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+    var search = Context.Request.Query["searchString"].ToString();
+}
+
+<h2>Products</h2>
+
+<!-- Search Form -->
+<form asp-action="Product" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="searchString" class="form-control" placeholder="Search by name..." value="@search" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+<p>
+    <a asp-action="AddProduct" class="btn btn-success mb-3">Add New Product</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock Qty</th>
+            <th>Unit</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        var name = product.Name;
+                        if (!string.IsNullOrEmpty(search))
+                        {
+                            var idx = name.IndexOf(search, StringComparison.OrdinalIgnoreCase);
+                            if (idx >= 0)
+                            {
+                                var before = name.Substring(0, idx);
+                                var match = name.Substring(idx, search.Length);
+                                var after = name.Substring(idx + search.Length);
+                                name = $"{before}<strong class=\"text-warning\">{match}</strong>{after}";
+                            }
+                        }
+                    }
+                    @Html.Raw(name)
+                </td>
+                <td>@product.Category</td>
+                <td>@product.Price</td>
+                <td>@product.StockQty</td>
+                <td>@product.Unit</td>
+                <td>
+                    <!-- Details Button -->
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#productModal" data-id="@product.Id">
+                        Details
+                    </button>
+
+                    <!-- Delete Button -->
+                    <form asp-action="DeleteConfirmedProducts" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@product.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Details Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+            <!-- Modal content will be loaded here via AJAX -->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#productModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var productId = button.data('id');
+
+            $.ajax({
+                url: '/Product/ProductDetails/' + productId,
+                type: 'GET',
+                success: function (data) {
+                    $('#modalContent').html(data);
+                },
+                error: function () {
+                    $('#modalContent').html('<div class="modal-body">Error loading product details.</div>');
+                }
+            });
+        });
+    </script>
+}

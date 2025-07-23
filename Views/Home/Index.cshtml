@@ -1,0 +1,189 @@
+﻿@{
+    ViewData["Title"] = "ERP Dashboard";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .kpi-card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .kpi-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .kpi-card .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .kpi-card .icon {
+        font-size: 2.5rem;
+        opacity: 0.8;
+    }
+
+    .kpi-title {
+        font-weight: 500;
+        color: #6c757d;
+    }
+
+    .kpi-value {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: #343a40;
+    }
+
+    .kpi-trend {
+        font-size: 0.9rem;
+    }
+
+    .trend-up {
+        color: #28a745;
+    }
+
+    .trend-down {
+        color: #dc3545;
+    }
+
+    .module-card {
+        background-color: #fff;
+        border-radius: 10px;
+        text-align: center;
+        padding: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: #343a40;
+        display: block;
+    }
+
+    .module-card:hover {
+        background-color: #007bff;
+        color: #fff;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
+    }
+
+    .module-card .icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .module-card .module-title {
+        font-weight: 600;
+    }
+
+    .dashboard-header {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: #fff;
+        padding: 2.5rem;
+        border-radius: 10px;
+        margin-bottom: 2.5rem;
+    }
+</style>
+
+<div class="container-fluid py-4">
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header text-left">
+        <h1 class="display-5">JohnDuck ERP Dashboard</h1>
+        <p class="lead mb-0">Central command for supermarket operations.</p>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="kpi-card">
+                <div class="card-body">
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="kpi-title text-uppercase">Total Products</h5>
+                            <i class="fas fa-boxes icon text-primary"></i>
+                        </div>
+                        <h2 class="kpi-value">1,428</h2>
+                    </div>
+                    <p class="kpi-trend mb-0"><span class="trend-up">+15</span> this week</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="kpi-card">
+                <div class="card-body">
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="kpi-title text-uppercase">Daily Sales</h5>
+                            <i class="fas fa-dollar-sign icon text-success"></i>
+                        </div>
+                        <h2 class="kpi-value">₹1,25,500</h2>
+                    </div>
+                    <p class="kpi-trend mb-0"><span class="trend-up">+5.2%</span> vs yesterday</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="kpi-card">
+                <div class="card-body">
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="kpi-title text-uppercase">Low Stock Alerts</h5>
+                            <i class="fas fa-exclamation-triangle icon text-warning"></i>
+                        </div>
+                        <h2 class="kpi-value">32</h2>
+                    </div>
+                    <p class="kpi-trend mb-0"><a href="#">View Items</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="kpi-card">
+                <div class="card-body">
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="kpi-title text-uppercase">Orders Processed</h5>
+                            <i class="fas fa-receipt icon text-info"></i>
+                        </div>
+                        <h2 class="kpi-value">451</h2>
+                    </div>
+                    <p class="kpi-trend mb-0"><span class="trend-up">+12%</span> this month</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Modules -->
+    <h3 class="mb-3">System Modules</h3>
+    <div class="row">
+        <div class="col-lg-3 col-md-6 mb-4">
+            <a href="/Product/Product" class="module-card">
+                <i class="fas fa-cubes icon"></i>
+                <h5 class="module-title">Product Management</h5>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <a href="/Order/Index" class="module-card">
+                <i class="fas fa-file-invoice-dollar icon"></i>
+                <h5 class="module-title">Billing & Orders</h5>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <a href="#" class="module-card">
+                <i class="fas fa-chart-line icon"></i>
+                <h5 class="module-title">Inventory Reports</h5>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <a href="#" class="module-card">
+                <i class="fas fa-users-cog icon"></i>
+                <h5 class="module-title">Staff Management</h5>
+            </a>
+        </div>
+    </div>
+</div>
