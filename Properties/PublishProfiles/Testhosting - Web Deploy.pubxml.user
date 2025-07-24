@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAyQ2TZwLe9UCS+ZLQ5SLB2QAAAAACAAAAAAAQZgAAAAEAACAAAAC3lIe44Mme9fs9FffLtzA2nobc8qrsx51e+quhFkvonwAAAAAOgAAAAAIAACAAAAAmpXwUr+qqu9ltMiejTBcJvfgKv3nK12IEKWbgZFHph4AAAAC7H6A/OYz+kKDHDui7I1jC+GAfNEikZuaLa9WB5P5xcziAupF21AXERRIPNIdkLi7rABLJQPDeI6SvAr9nLdfhZhgPP1jwFa9k3bssbBVYvfmHVtXsElgCuAxtRbwFK2WI1YuxN0V51HoCiRTvVWOiklldRhGzdrhsn/D1yNeGGkAAAAAhB1JI/G3Gt7XPhScea69+kFgQ2TqEjCuPBwWPY65+tPNkE//mE5eMw82kR2XgVNPidToe+QJkA1oPtNEprEcR</EncryptedPassword>
+    <History>True|2025-07-24T13:34:24.0400105Z||;False|2025-07-24T18:14:42.2907305+05:30||;False|2025-07-24T18:13:12.4833058+05:30||;True|2025-07-24T18:09:39.4096879+05:30||;</History>
+    <LastFailureDetails>
+    </LastFailureDetails>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=tcp:t-server1.database.windows.net,1433%3bInitial Catalog=t-database%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3bAuthentication="Active Directory Default"%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

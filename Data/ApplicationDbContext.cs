@@ -10,5 +10,7 @@ namespace JohnDuck.Data
             : base(options) { }
 
         public DbSet<Product> Products { get; set; }
+
+
     }
 }
